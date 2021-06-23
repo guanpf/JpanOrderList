@@ -2,8 +2,6 @@ import request from '@/utils/request'
 import qs from "qs"
 
 export function login(data) {
-  let _data = qs.stringify(data)
-  console.log(666,_data)
   let config = {
     headers:{
       "Content-Type":"application/json"
@@ -12,7 +10,7 @@ export function login(data) {
   return request({
     url: '/api/demo/login',
     method: 'post',
-    _data
+    data
   })
 }
 
@@ -25,10 +23,18 @@ export function getCode(data) {
 }
 
 export function getInfo(token) {
+  console.log(26,token)
+  let config = {
+        headers: {
+          "Authorization": token,
+          // "Authorization":`Basic ${Base64.encode(_data.username+":"+_data.password)}`,
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+      }
   return request({
-    url: '/vue-admin-template/user/info',
+    url: '/api/demo/system/user/info',
     method: 'get',
-    params: { token }
+    ...config
   })
 }
 

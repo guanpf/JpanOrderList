@@ -63,3 +63,21 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+.pt20{
+  padding-top:20px;
+}
+
+.table-title{
+  padding:10px 0;
+
+  .el-input{
+    width:250px;
+  }
+}
+
+.flex-bet{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
