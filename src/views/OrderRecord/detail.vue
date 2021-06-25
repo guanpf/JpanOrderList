@@ -40,10 +40,10 @@ export default {
     return {
       ruleForm:{
         "id":'',
-        "title":"这是采购记录",
-        "buyNumber":20,//购买个数
-        "goods":2,//商品id
-        "supplier":70//供货商id
+        "title":"",
+        "buyNumber":'',//购买个数
+        "goods":'',//商品id
+        "supplier":''//供货商id
         // "createTime": "2021-06-19 12:44:55",
         // "state": 1
       },
