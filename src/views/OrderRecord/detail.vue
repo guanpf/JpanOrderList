@@ -6,7 +6,7 @@
         <el-input v-model="ruleForm.title"></el-input>
       </el-form-item>
       <el-form-item label="购买个数" prop="buyNumber">
-        <el-input v-model="ruleForm.price"></el-input>
+        <el-input v-model="ruleForm.buyNumber"></el-input>
       </el-form-item>
       <el-form-item label="商品id" prop="goods">
         <el-input v-model="ruleForm.goods"></el-input>
