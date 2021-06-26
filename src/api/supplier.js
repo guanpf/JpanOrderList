@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+//获所有供应商列表
+export function getAllSupplier(params) {
+  return request({
+    url: '/api/demo/supplier',
+    method: 'get',
+    params
+  })
+}
+
 //获取供应商列表
 export function getList(params) {
   return request({

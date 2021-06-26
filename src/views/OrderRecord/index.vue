@@ -70,9 +70,8 @@ export default {
         {prop:'title',name:"采购记录"},
         {prop:'buyNumber',name:"数量"},
         {prop:'price',name:"价格"},
-        {prop:'goods',name:"商品id"},
         {prop:'goodsName',name:"商品"},
-        {prop:'supplier',name:"供货商"},
+        {prop:'supplierName',name:"供货商"},
         {prop:'createTime',name:"创建时间"},
         {prop:'state',name:"状态"}
       ]

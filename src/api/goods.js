@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+//获取所有商品列表
+export function getAllGoods(params) {
+  return request({
+    url: '/api/demo/goods',
+    method: 'get',
+    params
+  })
+}
+
 //获取商品列表
 export function getList(params) {
   return request({
