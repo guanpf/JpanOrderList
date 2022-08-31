@@ -36,7 +36,7 @@ module.exports = {
       //匹配代理的url
       '/api': {
         // 目标服务器地址
-        target: 'http://118.31.42.17:8888',
+        target: 'http://101.200.128.222:81',
         // target: 'http://192.168.133.151:8809/',
         // target: 'http://192.168.5.24  i2:8081',
         pathRewrite: {

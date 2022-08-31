@@ -1,48 +1,54 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
         <h3 class="title">Login Form</h3>
       </div>
 
-      <el-form-item prop="userName">
+      <el-form-item prop="loginName">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model.trim="loginForm.userName"
+          ref="loginName"
+          v-model.trim="loginForm.loginName"
           placeholder="请输入账号"
-          name="username"
+          name="loginName"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item prop="loginPwd">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="loginPwd" />
         </span>
         <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
+          :key="loginPwdType"
+          ref="loginPwd"
+          v-model="loginForm.loginPwd"
+          :type="loginPwdType"
           placeholder="请输入密码"
-          name="password"
+          name="loginPwd"
           tabindex="2"
           auto-complete="on"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="loginPwdType === 'loginPwd' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
 
-      <el-form-item prop="code">
+      <!-- <el-form-item prop="code">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="loginPwd" />
         </span>
         <el-input
           ref="code"
@@ -57,104 +63,112 @@
         <span class="show-pwd" @click="getCode">
           <img :src="imgUrl" />
         </span>
-      </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
+      </el-form-item> -->
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
+        @click.native.prevent="handleLogin"
+        >Login</el-button
+      >
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import { getCode } from '@/api/user'
+import { validloginName } from "@/utils/validate";
+import { getCode } from "@/api/user";
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+    const validateloginName = (rule, value, callback) => {
+      if (!validloginName(value)) {
+        callback(new Error("Please enter the correct user name"));
       } else {
-        callback()
+        callback();
       }
-    }
-    const validatePassword = (rule, value, callback) => {
+    };
+    const validateloginPwd = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error("The loginPwd can not be less than 6 digits"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
-      imgUrl:'',
+      imgUrl: "",
       loginForm: {
-        "userName": "system_admin",
-        "password": "123456",
-        "code":"",
-        "uuid":""
+        loginName: "test",
+        loginPwd: "test",
+        code: "",
+        uuid: "",
       },
       loginRules: {
-        userName: [{ required: true, trigger: 'blur', message: '请输入账号'}],
-        password: [{ required: true, trigger: 'blur', message: '请输入密码'}],
-        code: [{ required: true, trigger: 'blur',message: '请输入验证码' }]
+        loginName: [{ required: true, trigger: "blur", message: "请输入账号" }],
+        loginPwd: [{ required: true, trigger: "blur", message: "请输入密码" }],
+        // code: [{ required: true, trigger: "blur", message: "请输入验证码" }],
       },
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      loginPwdType: "loginPwd",
+      redirect: undefined,
+    };
   },
   watch: {
     $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+      handler: function (route) {
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
-  mounted(){
-      this.getCode()
+  mounted() {
+    // this.getCode();
   },
   methods: {
-    async getCode(){
-      let res = await getCode()
-      this.imgUrl ='data:image/png;base64,' + res.data.imgCode
-      this.loginForm.uuid = res.data.uuid
+    async getCode() {
+      let res = await getCode();
+      this.imgUrl = "data:image/png;base64," + res.data.imgCode;
+      this.loginForm.uuid = res.data.uuid;
     },
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.loginPwdType === "loginPwd") {
+        this.loginPwdType = "";
       } else {
-        this.passwordType = 'password'
+        this.loginPwdType = "loginPwd";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.loginPwd.focus();
+      });
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          this.loading = true;
+          this.$store
+            .dispatch("user/login", this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || "/" });
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -197,9 +211,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;

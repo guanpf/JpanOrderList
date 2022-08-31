@@ -2,14 +2,7 @@
   <div class="app-container">
     <div class="table-title flex-bet">
       <div class="flex-start">
-        <span>订单管理列表</span>
-        <el-button
-          class="add-btn"
-          size="mini"
-          type="primary"
-          @click="$router.push('/OrderRecord/detail')"
-          >添加订单</el-button
-        >
+        <span>用户列表</span>
         <el-select
           class="select-item"
           v-model.trim="reqParams.country"
@@ -26,13 +19,18 @@
           >
           </el-option>
         </el-select>
+        <el-input
+          size="small"
+          v-model="reqParams.cardNo"
+          placeholder="请输入信用卡号"
+        ></el-input>
+        <el-input
+          size="small"
+          v-model="reqParams.email"
+          placeholder="请输入邮箱"
+        ></el-input>
       </div>
-      <!-- <el-input
-        size="small"
-        v-model="reqParams.keyword"
-        placeholder="请输入采购记录名称"
-        @keyup.enter.native="fetchData"
-      ></el-input> -->
+      <el-button size="small" @click.native="fetchData">搜索</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -48,26 +46,6 @@
         :prop="item.prop"
         :label="item.name"
       >
-      </el-table-column>
-      <el-table-column label="操作" width="200px">
-        <template slot-scope="scope">
-          <div class="flex-start">
-            <!-- <el-button
-              size="mini"
-              type="primary"
-              @click="update(scope.row.id)"
-              icon="el-icon-edit"
-              >编辑</el-button
-            > -->
-            <el-button
-              size="mini"
-              type="danger"
-              @click="deleteRow(scope.row.orderNo)"
-              icon="el-icon-delete"
-              >删除</el-button
-            >
-          </div>
-        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -85,7 +63,7 @@
 </template>
 
 <script>
-import { getOrderList, deleteOrder } from "@/api/order";
+import { getAccountList } from "@/api/user";
 import { parseTime } from "@/utils/index";
 export default {
   filters: {
@@ -105,7 +83,9 @@ export default {
       reqParams: {
         size: 10,
         current: 1,
-        country: "us",
+        cardNo: "", //信用卡号
+        email: "", //邮箱
+        country: "", //国家
         // keyword: "",
       },
       countryOptions: [
@@ -118,11 +98,9 @@ export default {
         total: 0,
       },
       tableParams: [
-        { prop: "orderNo", name: "订单编号" },
+        { prop: "cardNo", name: "信用卡号" },
         { prop: "country", name: "国家" },
-        { prop: "num", name: "刷单次数" },
-        { prop: "memo", name: "备注" },
-        { prop: "createTimeP", name: "创建时间" },
+        { prop: "email", name: "邮箱" },
       ],
     };
   },
@@ -132,13 +110,9 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true;
-      getOrderList(this.reqParams).then((res) => {
+      getAccountList(this.reqParams).then((res) => {
         if (res.data && res.data.records.length > 0) {
-          this.list = res.data.records.map((item) => {
-            let temp = item;
-            temp.createTimeP = parseTime(item.createTime);
-            return temp;
-          });
+          this.list = res.data.records;
           this.pagination.total = res.data.total;
         } else {
           this.list = [];
@@ -178,6 +152,10 @@ export default {
   margin-left: 10px;
 }
 ::v-deep.select-item {
+  .el-input {
+    width: 180px;
+    margin-right: 30px;
+  }
   .el-input__inner {
     height: 30px;
     line-height: 30px;
@@ -187,5 +165,9 @@ export default {
     display: flex;
     align-items: center;
   }
+}
+::v-deep.table-title .el-input {
+  width: 180px;
+  margin-right: 30px;
 }
 </style>

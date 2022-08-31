@@ -4,11 +4,12 @@ import qs from "qs"
 export function login(data) {
   let config = {
     headers:{
+      "Authorization":'Bearer 0bbccbe8749e4749b3e334912dcc0f9b',
       "Content-Type":"application/json"
     }
   }
   return request({
-    url: '/api/demo/login',
+    url: '/api/login',
     method: 'post',
     data
   })
@@ -23,7 +24,6 @@ export function getCode(data) {
 }
 
 export function getInfo(token) {
-  console.log(26,token)
   let config = {
         headers: {
           "Authorization": token,
@@ -42,5 +42,13 @@ export function logout() {
   return request({
     url: '/api/demo/logout',
     method: 'get'
+  })
+}
+
+export function getAccountList(params) {
+  return request({
+    url: '/api/account/list',
+    method: 'get',
+    params
   })
 }

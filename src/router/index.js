@@ -44,45 +44,31 @@ export const constantRoutes = [
   },
 
   {
-    path: '/SupplierList',
-    name: 'SupplierList',
-    redirect: '/SupplierList/index',
+    path: '/AccountList',
+    name: 'AccountList',
+    redirect: '/AccountList/index',
     component: Layout,
-    meta: { title: '供应商管理', icon: 'nested' },
+    meta: { title: '用户管理', icon: 'nested' },
     children: [{
         path: 'index',
         name: 'index',
-        component: () => import('@/views/SupplierList/index'),
-        meta: { title: '供应商列表', icon: 'nested' ,display:false}
-      },
-      {
-        path: 'detail',
-        name: 'detail',
-        component: () => import('@/views/SupplierList/detail'),
-        meta: { title: '详情' ,display:false},
-        hidden: true
+        component: () => import('@/views/AccountList/index'),
+        meta: { title: '用户列表', icon: 'nested' ,display:false}
       }
     ]
   },
 
   {
-    path: '/GoodsList',
-    name: 'GoodsList',
-    redirect: '/GoodsList/index',
+    path: '/TaskList',
+    name: 'TaskList',
+    redirect: '/TaskList/index',
     component: Layout,
-    meta: { title: '商品管理', icon: 'dashboard' },
+    meta: { title: '任务管理', icon: 'dashboard' },
     children: [{
         path: 'index',
         name: 'index',
-        component: () => import('@/views/GoodsList/index'),
-        meta: { title: '商品列表'}
-      },
-      {
-        path: 'detail',
-        name: 'detail',
-        component: () => import('@/views/GoodsList/detail'),
-        meta: { title: '详情' ,display:false},
-        hidden: true
+        component: () => import('@/views/TaskList/index'),
+        meta: { title: '任务列表'}
       }
     ]
   },
@@ -111,7 +97,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/SupplierList/index'
+    redirect: '/CreditCard/index'
   },
 
 
